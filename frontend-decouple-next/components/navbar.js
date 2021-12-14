@@ -1,5 +1,26 @@
 import Link from "next/link";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 const Navabr = () => {
+  let user = Cookies.get("name");
+  const router = useRouter();
+  var log = false;
+
+  if (typeof user !== "undefined") {
+    if (user !== "" || user !== null) {
+      log = true;
+    }
+  }
+
+  function userLogout() {
+    if (log) {
+      Cookies.remove("name");
+      Cookies.remove("auth");
+      Cookies.remove("csrf");
+
+      router.push("/");
+    }
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -27,17 +48,28 @@ const Navabr = () => {
                 </a>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link href="/about">
-                <a className="nav-link">About</a>
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link href="/contact">
-                <a className="nav-link">Contact</a>
-              </Link>
-            </li>
+            {log ? (
+              <>
+                <li className="nav-item">
+                  <Link href="/create">
+                    <a className="nav-link">Create Article</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="">
+                    <a className="nav-link" onClick={userLogout}>
+                      Logout
+                    </a>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <Link href="/login">
+                  <a className="nav-link">Login</a>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
