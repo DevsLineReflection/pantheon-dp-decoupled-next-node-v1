@@ -27,8 +27,42 @@ newsRouter
       .catch((error) => next(error));
   })
   .post((req, res, next) => {
-    res.statusCode = 403;
-    res.json("Post req not allow");
+    const { title, content, auth } = req.body;
+
+    if (typeof auth !== "undefined") {
+      if (auth !== null || auth !== "") {
+        let postData = {
+          type: [{ target_id: "article" }],
+          title: [{ value: title }],
+          body: [{ value: content }],
+        };
+        // set the headers
+        const config = {
+          headers: {
+            Authorization: "Basic " + auth,
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          },
+        };
+        axios
+          .post(
+            "https://dev-news-dec.pantheonsite.io/entity/node?_format=json",
+            postData,
+            config
+          )
+          .then((result) => {
+            res.json(result.data);
+          })
+          .catch((e) => res.json(e));
+      } else {
+        res.status = 401;
+        res.json("You are not authorizes " + auth);
+      }
+    } else {
+      res.status = 401;
+      res.json("You are not authorizes " + auth);
+    }
   })
   .put((req, res, next) => {
     res.statusCode = 403;
