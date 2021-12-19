@@ -14,9 +14,6 @@ services:
       - pantheon-backend-wrapper
     networks:
       - app-tier
-    environment:
-      PORT: 3000
-      localhost: http://pantheon-backend-wrapper:1636
       
   pantheon-backend-wrapper:
     image: pantheon-backend-wrapper
@@ -25,5 +22,3 @@ services:
       - 1636:1636
     networks:
       - app-tier
-    environment:
-      API_SERVER: "pantheon-backend-wrapper:1636"
