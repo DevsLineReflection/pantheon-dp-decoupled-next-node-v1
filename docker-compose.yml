@@ -1,0 +1,23 @@
+version: '3'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  pantheon-backend-wrapper:
+    image: pantheon-backend-wrapper
+    container_name: pantheon-backend-wrapper
+    ports:
+      - 1636:1636
+    networks:
+      - app-tier
+  pantheon-frontend:
+    image: pantheon-frontend-next
+    container_name: pantheon-frontend-next
+    ports:
+      - 3000:3000
+    depends_on:
+      - pantheon-backend-wrapper
+    networks:
+      - app-tier

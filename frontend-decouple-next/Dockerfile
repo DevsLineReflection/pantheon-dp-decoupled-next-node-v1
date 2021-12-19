@@ -1,10 +1,7 @@
 FROM node:12
 
 #create work directory
-WORKDIR /app/nodeapi
-
-
-#copy the json file
+WORKDIR /app/web
 
 COPY package.* ./
 
@@ -12,6 +9,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 1636
+EXPOSE 3000
 
-CMD [ "node", "./bin/www" ]
+CMD [ "npm", "run", "dev" ]
