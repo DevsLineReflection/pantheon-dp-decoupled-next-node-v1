@@ -65,6 +65,7 @@ router.post("/login", function (req, res, next) {
               auth: base64token,
             };
             res.json(userData);
+            res.setHeade
           } else {
             res.status = 400;
             res.json("Incorrect Credential");
@@ -89,7 +90,7 @@ router.post("/register", function (req, res, next) {
       console.log(data);
       const config = {
         headers: {
-          "Content-Type": "application/text",
+          "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
           "X-Csrf-Token": data.data,
